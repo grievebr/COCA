@@ -23,7 +23,7 @@ Code Descriptions:
 
 Data samples: 
 
-	alltrawl - NEFSC and state bottom trawl survey and all associated variables required to calculate swept area and habitat models. Only a sample because I do not have permission to share, especially the state data
+	alltrawl_sample - NEFSC and state bottom trawl survey and all associated variables required to calculate swept area/night correction and create/project habitat models. Only a sample because I do not have permission to share, especially the state data. Any column names in all caps conforms to standard NEFSC naming conventions.
 
 	NWA-SZ.HCob05T_avg_2010-04-21.nc - 7km ROMS cobalt bottom-water temperature (C) for April 21 2010. 
 
