@@ -23,10 +23,8 @@ Code Descriptions:
 
 Data samples: 
 
-	alltrawl_sample - NEFSC and state bottom trawl survey and all associated variables required to calculate swept area/night correction and create/project habitat models. Only a sample because I do not have permission to share, especially the state data. Any column names in all caps conforms to standard NEFSC naming conventions.
+	alltrawl_sample.csv - Sample of NEFSC and state bottom trawl survey and all associated variables required to calculate swept area/night correction and create/project habitat models. Any column names in all caps conforms to standard NEFSC naming conventions.
 
-	NWA-SZ.HCob05T_avg_2010-04-21.nc - 7km ROMS cobalt bottom-water temperature (C) for April 21 2010. 
-
-	NWA_grid.nc - Gridfile necessary to interpret curvelinear ROMS model. 
+	bwt_20100421.mat - Downscaled .mat file of ROMS ocean model for April 21 2010. 
 
 	habvar_sample.csv - sample of benthic classification values used to predict completed habitat models  
