@@ -15,11 +15,11 @@ bigelow_fall = read.csv("C:/Users/brian.grieve/Downloads/bigelow_fall_calibratio
 bigelow_fall = bigelow_fall[is.element(bigelow_fall$svspp,u_svspp),1:5]
 bigelow_spring = read.csv("C:/Users/brian.grieve/Downloads/bigelow_spring_calibration.csv")
 bigelow_spring = bigelow_spring[is.element(bigelow_spring$svspp,u_svspp),1:5]
-#species_conversions = species_conversions[-which(is.na(species_conversions$SVSPP)),];
+# no conversion for these species
 species_conversions[(is.na(species_conversions)==1 | species_conversions==0)] = 1; 
 for (spp in u_svspp){
-  i_hb = which(bigelow_spring$svspp==spp)
-  i_spp = which(species_conversions$SVSPP==spp)
+  i_hb = which(bigelow_spring$svspp==spp) # Henry Bigelow
+  i_spp = which(species_conversions$SVSPP==spp) # Albatross and other NOAA survey boats
   species_conversions[i_spp,'HB_pw_SPRING'] = bigelow_spring[i_hb,'pw'];
   species_conversions[i_spp,'HB_pW_SPRING'] = bigelow_spring[i_hb,'pW'];
   
@@ -38,8 +38,11 @@ varnames = names(noaatrawl);
 # 2018 NOAA Trawl data
 noaatrawl$AREA = NA; 
 Bell_Data_Request_2019 <- read.csv("C:/Users/brian.grieve/Documents/coca/Data/Bell_Data_Request_2019.txt")
+# Match columns
 newi = vector(mode='numeric',length=NCOL(Bell_Data_Request_2019))
 for (i in 1:length(newi)){newi[i] = which(names(noaatrawl)==names(Bell_Data_Request_2019)[i])}
+
+# 2019 Trawl data
 noaa19 = data.frame(matrix(data=NA,nrow=nrow(Bell_Data_Request_2019),ncol=ncol(noaatrawl))); names(noaa19) = names(noaatrawl)
 noaa19[,newi] = Bell_Data_Request_2019;
 noaatrawl = rbind(noaatrawl,noaa19[which(noaa19$CRUISE6==201804),]);
@@ -107,6 +110,7 @@ trawl$MEAN_WING_SPRD_METERS[which(trawl$SVGEAR==12)]=9.2;
 trawl$MEAN_WING_SPRD_METERS[which(trawl$SVGEAR==41)]=11.8;
 trawl$MEAN_WING_SPRD_METERS[which(trawl$SVGEAR==17)]=10.4; # Modified 36 Yankee trawl with chain cookie/rubber sweep
 
+# Calculate swept area
 calc_sa_wing = ((trawl$TOWDUR*60)*trawl$BOTSPEED*.5144*trawl$MEAN_WING_SPRD_METERS)/1E6; # (Seconds)*(knots)to(m/s)*(m)to(km) = Swept area in km.
 
 
@@ -182,7 +186,7 @@ cruise_gear[,'total_conversion_NUM'] = (cruise_gear[,'door_conversion_NUM']*crui
 cruise_gear[,'total_conversion_WT'] = (cruise_gear[,'door_conversion_WT']*cruise_gear[,'vessel_conversion_WT'])/cruise_gear[,'gear_conversion_WT'];
 
 
-trawl$ind = 1:nrow(trawl)
+# Incorporate conversion factors for expanded species dataframe
 trawl.corrected = rep(trawl[,c(1:31,107)],times=length(u_svspp));
 trawl.corrected$SVSPP = rep(u_svspp,each=nrow(trawl))
 trawl.corrected$num = as.vector(unlist(trawl[,abunvec]));
