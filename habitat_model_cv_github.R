@@ -1,5 +1,5 @@
 # This script runs through all possible combinations of seven habitat variables to determine the best habitat model
-
+# 5 fold cross validated
 
 library(dplyr); library(mgcv); library(bbmle); library(Metrics); library(caret); library(readxl); library(rgdal); library(gstat); library(lattice); library(PresenceAbsence)
 
@@ -182,7 +182,9 @@ for (spp in u_svspp[c(1:25)]){
   spname = (species_conversions[which(species_conversions$SVSPP==spp),'Common name']); print(spname)
   ind.vec = which(u_svspp==spp)
   fishdata = alltrawl[which(alltrawl$SVSPP==spp & alltrawl$SEASON==Season),];
-  fishdata[which(fishdata$sedclasses==128),'sedclasses'] = NA;
+  fishdata[which(fishdata$sedclasses==128),'sedclasses'] = NA; # Not a sediment code
+  
+  # Perimeter or Area?
   if(patchcor[ind.vec,'usepatch']=='Perim'){fishdata$Patch = fishdata$PatchPerim; habvars2$Patch = habvars2$PatchPerim}
   if(patchcor[ind.vec,'usepatch']=='Area'){fishdata$Patch = fishdata$PatchArea; habvars2$Patch = habvars2$PatchArea}
 
@@ -191,9 +193,9 @@ for (spp in u_svspp[c(1:25)]){
   if(length(i.na)>0){
     fishdata = fishdata[-i.na,]}
 
-   
+  # Collect fit statistics and a preliminary combined statistic with threshold determined by prevalence or maximum TSS 
   habcval.df = data.frame(matrix(data=NA,nrow=5,ncol=20)); 
-  names(habcval.df) = c('SVSPP','Season','partition','modelnumber','AIC','dev.exp','r.sq','auc','maxtss_thresh','maxtss_sens','maxtss_spec','prev_thresh','prev_sens','prev_spec','mult_cor','maxtss_cor','prev_cor','mult_rmse','maxtss_rmse','prev_rmse')  
+  names(habcval.df) = c('SVSPP','Season','partition','modelnumber','AIC','dev.exp','r.sq','auc','maxtss_thresh','maxtss_sens','maxtss_spec','mult_cor','maxtss_cor','mult_rmse','maxtss_rmse')  
   habcval.df$partition = 1:5; 
   habcval.df$SVSPP = spp; 
   habcval.df$Season = Season
