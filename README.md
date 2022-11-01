@@ -1,9 +1,6 @@
 # COCA
-This contains the code for the project "Climate Induced Habitat Changes of Fish Stocks"
+This contains sample code for the project "Climate Induced Habitat Changes of Fish Stocks" published in ICES Journal of Marine Science October 2022.
 
-It will contain a repository and link to view in a Jupyter notebook.
-
-Project is near completion, but code will be added within the next week or so
 
 
 Code Descriptions:
